@@ -1,0 +1,14 @@
+{
+  "name": "aditiv2",
+  "version": "1.0.0",
+  "description": "A (possibly) better version",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kevin Mathew",
+  "license": "ISC",
+  "dependencies": {
+    "node-telegram-bot-api": "^0.40.0"
+  }
+}
