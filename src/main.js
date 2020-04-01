@@ -6,7 +6,7 @@ Promise.config({
   cancellation: true
 });
 const TelegramBot = require('node-telegram-bot-api');
-const secrets = require('../secrets.json')
+// const secrets = require('../secrets.json')
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
