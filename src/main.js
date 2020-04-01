@@ -1,6 +1,5 @@
 const dotenv = require('dotenv');
 dotenv.config();
-console.log()
 
 const Promise = require('bluebird');
 Promise.config({
@@ -12,7 +11,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const mongoose = require('mongoose');
-const token = secrets.token;
+const token = process.env.BOT_TOKEN;
 const bot = new TelegramBot(token, {polling: false});
 let User = require('../models/user.model');
 
@@ -23,6 +22,20 @@ app.listen(PORT, function(){
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+
+const uri = process.env.ATLAS_URI;
+mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true});
+const connection = mongoose.connection;
+
+connection.once('open', () => {
+    console.log("Connected to MongoDB!");
+}).catch((error)=>{
+    console.log("Mongo not connected");
+    console.error(error);
+});
+
+
 app.get('/', (req, res) => {
     res.send("Hey!")
 })
@@ -137,17 +150,6 @@ app.post('/updates', (request, response) => {
 });
 
 
-
-const uri = secrets.mongo_uri;
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true});
-const connection = mongoose.connection;
-
-connection.once('open', () => {
-    console.log("Connected to MongoDB!");
-}).catch((error)=>{
-    console.log("Mongo not connected");
-    console.error(error);
-});
 bot.onText(/\/start/, (msg) => {
     bot.sendMessage(id, "Welcome, " + msg.from.first_name + ". Click on subscribe to subscribe to the feed. To unsubscribe anytime, send \"Unsubscribe\" anytime", {
     "reply_markup": {
