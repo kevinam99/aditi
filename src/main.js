@@ -14,13 +14,12 @@ const app = express();
 const mongoose = require('mongoose');
 const token = secrets.token;
 const bot = new TelegramBot(token, {polling: false});
+let User = require('../models/user.model');
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, function(){
     console.log("Express app listening on port " + PORT);
 });
-
-
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -45,7 +44,6 @@ function getName(fulfillment)
 
 function subscribe(id, first_name)
 {
-    let User = require('../models/user.model');
     const name = first_name
     const userId = id; 
     const newUser = new User({name: name, id: userId});
@@ -73,10 +71,39 @@ function subscribe(id, first_name)
 }
 
 function unsubscribe(id)
-{
-   
-    const message = `You have been unsubscribed. We're sad to see you go`;
-    bot.sendMessage(id, message);
+{   
+    const userId = id;
+    User.findOne({id: userId}, (err, user) => {
+        if(err)
+        {
+            console.error(err)
+        }
+
+        else if(user == null)
+        {
+            const message = `You are already unsubscribed. Send 'subscribe' if you want to subscribe again.`;
+            bot.sendMessage(id, message);   
+        }
+        else if(user != null)
+        {
+            User.deleteOne({id}, (err, response) =>{
+                if(!err && response)
+                {
+                    const message = `You have been unsubscribed. We're sad to see you go`;
+                    bot.sendMessage(id, message);
+                }
+                else if(err)
+                {
+                    console.error(err);
+                }
+                
+            })
+        }
+
+        
+        
+    });
+    
 }
 
 function sayHi(id, first_name)
@@ -97,6 +124,11 @@ app.post('/updates', (request, response) => {
     if(getIntent(request.body) == "Subscribe")
     {
         subscribe(id, name, () => console.log(`${name}, subscribed`));
+    }
+
+    if(getIntent(request.body) == "Unsubscribe - yes")
+    {
+        unsubscribe(getChatId(request.body))
     }
     // console.log(request.body.originalDetectIntentRequest.payload.data.from.id)
     
