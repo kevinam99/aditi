@@ -3,7 +3,7 @@ secrets.json
 package-lock.json
 fullfilmen*.json
 .env
-Procfile
+
 
 # Logs
 logs
