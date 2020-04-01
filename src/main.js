@@ -138,7 +138,7 @@ app.post('/updates', (request, response) => {
 
 
 
-const uri = "mongodb+srv://kevinam99:baloney5000@cluster0-f2cdt.gcp.mongodb.net/test?retryWrites=true&w=majority";
+const uri = secrets.mongo_uri;
 mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true});
 const connection = mongoose.connection;
 
