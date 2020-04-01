@@ -4,7 +4,7 @@
   "description": "A (possibly) better version",
   "main": "index.js",
   "scripts": {
-    "start": "node src/main.js"
+    "start": "node app/main.js"
   },
   "author": "Kevin Mathew",
   "license": "ISC",
