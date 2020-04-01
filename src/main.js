@@ -1,3 +1,7 @@
+const dotenv = require('dotenv');
+dotenv.config();
+console.log()
+
 const Promise = require('bluebird');
 Promise.config({
   cancellation: true
@@ -7,14 +11,16 @@ const secrets = require('../secrets.json')
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const mongoose = require('mongoose');
 const token = secrets.token;
+const bot = new TelegramBot(token, {polling: false});
 
-
-app.listen(5000, function(){
-    console.log("Express app listening on port " + 5000);
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, function(){
+    console.log("Express app listening on port " + PORT);
 });
 
-const bot = new TelegramBot(token, {polling: false});
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -29,37 +35,76 @@ function getIntent(fulfillment)
 
 function getChatId(fulfillment)
 {
-    return fulfillment.body.originalDetectIntentRequest.payload.data.from.id;
+    return fulfillment.originalDetectIntentRequest.payload.data.from.id;
 }
 
 function getName(fulfillment)
 {
-    return fulfillment.body.originalDetectIntentRequest.payload.data.from.first_name;
+    return fulfillment.originalDetectIntentRequest.payload.data.from.first_name;
 }
 
 function subscribe(id, first_name)
 {
+    let User = require('../models/user.model');
+    const name = first_name
+    const userId = id; 
+    const newUser = new User({name: name, id: userId});
+
+    newUser.save((err, user) => {
+        if(err)
+        {
+            console.error(err)
+            if(err.code == 11000)
+            {
+                const message = `You are already subscribed, ${first_name}!`;
+                bot.sendMessage(id, message)
+            }
+        }
+
+        
+        else if(!err)
+        {
+            const message = `You have been subscribed. Welcome aboard, ${first_name}!`;
+            bot.sendMessage(id, message);
+        }
+    })
+          
     
 }
 
 function unsubscribe(id)
 {
-
+   
+    const message = `You have been unsubscribed. We're sad to see you go`;
+    bot.sendMessage(id, message);
 }
 
 function sayHi(id, first_name)
 {
-
+    const message = `Hello, ${first_name}`;
+    bot.sendMessage(id, message);
 }
 
 
 
 app.post('/updates', (request, response) => {
-    res.send("Hey there. Received event at webhook!");
+    response.send("Hey there. Received event at webhook!");
+    // console.log(request)
+    const id = getChatId(request.body)
+    const name = getName(request.body)
+    // sayHi(id, name)
 
-    console.log(request.body.originalDetectIntentRequest.payload.data.from.id)
-    bot.sendMessage(id, `You have been subscribed. Welcome aboard, ${name}!`);
+    if(getIntent(request.body) == "Subscribe")
+    {
+        subscribe(id, name, () => console.log(`${name}, subscribed`));
+    }
+    // console.log(request.body.originalDetectIntentRequest.payload.data.from.id)
+    
 
+
+    bot.on('webhook_error', (error) => {
+        console.log(error.code);  // => 'EPARSE'
+      });
 });
 
 
@@ -99,6 +144,17 @@ bot.on('message', (msg) => {
 
     })
 
+
+const uri = "mongodb+srv://kevinam99:baloney5000@cluster0-f2cdt.gcp.mongodb.net/test?retryWrites=true&w=majority";
+mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true});
+const connection = mongoose.connection;
+
+connection.once('open', () => {
+    console.log("Connected to MongoDB!");
+}).catch((error)=>{
+    console.log("Mongo not connected");
+    console.error(error);
+});
 bot.onText(/\/start/, (msg) => {
     bot.sendMessage(id, "Welcome, " + msg.from.first_name + ". Click on subscribe to subscribe to the feed. To unsubscribe anytime, send \"Unsubscribe\" anytime", {
     "reply_markup": {
@@ -119,6 +175,3 @@ bot.onText(/\/help/, (msg) => {
 
 
 
-bot.on('webhook_error', (error) => {
-    console.log(error.code);  // => 'EPARSE'
-  });
