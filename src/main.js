@@ -129,52 +129,13 @@ app.post('/updates', (request, response) => {
     if(getIntent(request.body) == "Unsubscribe - yes")
     {
         unsubscribe(getChatId(request.body))
-    }
-    // console.log(request.body.originalDetectIntentRequest.payload.data.from.id)
-    
-
+    }    
 
     bot.on('webhook_error', (error) => {
         console.log(error.code);  // => 'EPARSE'
       });
 });
 
-
-
-bot.on('message', (msg) => {
-
-    if (msg.text.toString().toLowerCase().indexOf("hi") === 0 || msg.text.toString().toLowerCase().indexOf("hey") === 0 || msg.text.toString().toLowerCase().includes("hello")) {
-        bot.sendMessage(msg.from.id, "Hello, " + msg.from.first_name + "!") ;
-        bot.sendMessage(msg.from.id, "Enter the /start command to get started, if you haven't subscribed yet");
-    } 
-        
-    
-    else if (msg.text.toString().toLowerCase().includes("bye")) {
-        bot.sendMessage(msg.from.id, "Hope to see you around again , Bye");
-    } 
-
-    // else if(msg.text.toString().toLowerCase().indexOf("subscribe") === 0){
-    //     bot.sendMessage(msg.from.id, "You have been subscribed. Welcome aboard!")
-    // }
-    
-    else if(msg.text.toString().toLowerCase().indexOf("unsubscribe") === 0){
-        bot.sendMessage(msg.from.id, "You have been unsubscribed. We're sad to see you go :(")
-    }
-
-    else if(msg.text.toString().toLowerCase().includes("thank")){
-        bot.sendMessage(msg.from.id, "You're welcome, " + msg.from.first_name);
-    }
-
-    else{
-        // bot.sendPhoto(msg.from.id, "/home/kevin/Pictures/sendpic.jpg");
-        const imgPath = "https://static.independent.co.uk/s3fs-public/thumbnails/image/2016/01/12/16/sorry-note-rex.jpg?w968h681";
-        bot.sendPhoto(msg.chat.id, imgPath, { caption : "Sorry, I can't help you with that at the moment :). Please contact [Kevin](github.com/kevinam99) for this purpose. Send /start to get started.", "parse_mode": "markdown" } );
-
-        
-    }
-
-
-    })
 
 
 const uri = "mongodb+srv://kevinam99:baloney5000@cluster0-f2cdt.gcp.mongodb.net/test?retryWrites=true&w=majority";
