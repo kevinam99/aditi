@@ -3,18 +3,17 @@ Promise.config({
   cancellation: true
 });
 const TelegramBot = require('node-telegram-bot-api');
-const secrets = require('./secrets.json')
+const secrets = require('../secrets.json')
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const token = secrets.token;
+
 
 app.listen(5000, function(){
     console.log("Express app listening on port " + 5000);
 });
-// replace the value below with the Telegram token you receive from @BotFather
-const token = secrets.token;
 
-// Create a bot that uses 'polling' to fetch new updates
 const bot = new TelegramBot(token, {polling: false});
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -23,17 +22,45 @@ app.get('/', (req, res) => {
     res.send("Hey!")
 })
 
-app.post('/subscribe', (req, res) => {
-    res.send("Hey there. from webhook ngrok");
-    // console.log(req.body);
-    let id = req.body.originalDetectIntentRequest.payload.data.from.id;
-    let name = req.body.originalDetectIntentRequest.payload.data.from.first_name;    
-    console.log(req.body.originalDetectIntentRequest.payload.data.from.id)
+function getIntent(fulfillment)
+{
+    return fulfillment.queryResult.intent.displayName;
+}
+
+function getChatId(fulfillment)
+{
+    return fulfillment.body.originalDetectIntentRequest.payload.data.from.id;
+}
+
+function getName(fulfillment)
+{
+    return fulfillment.body.originalDetectIntentRequest.payload.data.from.first_name;
+}
+
+function subscribe(id, first_name)
+{
+    
+}
+
+function unsubscribe(id)
+{
+
+}
+
+function sayHi(id, first_name)
+{
+
+}
+
+
+
+app.post('/updates', (request, response) => {
+    res.send("Hey there. Received event at webhook!");
+
+    console.log(request.body.originalDetectIntentRequest.payload.data.from.id)
     bot.sendMessage(id, `You have been subscribed. Welcome aboard, ${name}!`);
 
 });
-
-
 
 
 
@@ -63,8 +90,8 @@ bot.on('message', (msg) => {
 
     else{
         // bot.sendPhoto(msg.from.id, "/home/kevin/Pictures/sendpic.jpg");
-        const img = "https://static.independent.co.uk/s3fs-public/thumbnails/image/2016/01/12/16/sorry-note-rex.jpg?w968h681";
-        bot.sendPhoto(msg.chat.id, img, { caption : "Sorry, I can't help you with that at the moment :). Please contact [Kevin](github.com/kevinam99) for this purpose. Send /start to get started.", "parse_mode": "markdown" } );
+        const imgPath = "https://static.independent.co.uk/s3fs-public/thumbnails/image/2016/01/12/16/sorry-note-rex.jpg?w968h681";
+        bot.sendPhoto(msg.chat.id, imgPath, { caption : "Sorry, I can't help you with that at the moment :). Please contact [Kevin](github.com/kevinam99) for this purpose. Send /start to get started.", "parse_mode": "markdown" } );
 
         
     }
