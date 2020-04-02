@@ -1,13 +1,13 @@
 const axios = require('axios')
 
 const getCovidData = (state, district) => {
-    const confirmed = 0;
+    const confirmed_cases = 0;
 
     state = state.toLowerCase()
-    district = district.toLowerCase()
+    // district = district.toLowerCase()
 
     state = state[0].toUpperCase() + state.slice(1); 
-    district = district[0].toUpperCase() + district.slice(1); 
+    // district = district[0].toUpperCase() + district.slice(1); 
 
     const url = "https://api.covid19india.org/v2/state_district_wise.json";
     axios.get(url)
@@ -39,8 +39,8 @@ const getCovidData = (state, district) => {
                     if(response.data[stateIndex].districtData[i]["district"] == district)
                     {
                         isDistrictFound = true;
-                        confirmed = response.data[stateIndex].districtData[i]["confirmed"];
-                        console.log(confirmed)
+                        confirmed_cases = response.data[stateIndex].districtData[i]["confirmed_cases"];
+                        console.log(confirmed_cases)
                         break;
                     }
                 }
@@ -48,7 +48,7 @@ const getCovidData = (state, district) => {
                 if(!isDistrictFound)
                 {
                     console.log("District not found!");
-                    return "District not found!"
+                    return "District not found"
                 }
             }
 
@@ -56,7 +56,7 @@ const getCovidData = (state, district) => {
         .catch(error => console.error(error));
 
 
-        return confirmed;
+        return confirmed_cases;
 }
 
 module.exports = {

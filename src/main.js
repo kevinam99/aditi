@@ -152,8 +152,24 @@ app.post('/updates', (request, response) => {
         const state = request.body.queryResult.parameters.state;
         const district = request.body.queryResult.parameters.district;  
         const response = covid19.getCovidData(state, district)
-        const message = `The number of confirmed cases here at ${state}, ${district} is ${response}`;
-        bot.sendMessage(id, message);
+
+        if(response == "State not found")
+        {
+            const message = `${state} not found :(`;
+            bot.sendMessage(id, message);
+        }
+
+        if(response == "District not found")
+        {
+            const message = `${district} not found :(`;
+            bot.sendMessage(id, message);
+        }
+        else
+        {
+            const message = `The number of confirmed cases here at ${state}, ${district} is ${response}`;
+            bot.sendMessage(id, message); 
+        }
+        
 
     }
 
