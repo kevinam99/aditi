@@ -1,14 +1,14 @@
 const axios = require('axios')
 
 const getData = (state, district) => {
+    const confirmed = 0;
 
     state = state.toLowerCase()
     district = district.toLowerCase()
-    state = state[0].toUpperCase() +  
-    state.slice(1); 
 
-    district = district[0].toUpperCase() +  
-    district.slice(1); 
+    state = state[0].toUpperCase() + state.slice(1); 
+    district = district[0].toUpperCase() + district.slice(1); 
+
     const url = "https://api.covid19india.org/v2/state_district_wise.json";
     axios.get(url)
          .then(response => {        
@@ -30,6 +30,7 @@ const getData = (state, district) => {
             if(!isStateFound)
             {
                 console.log("State not found")
+                return "State not found"
             }
             else
             {
@@ -38,8 +39,8 @@ const getData = (state, district) => {
                     if(response.data[stateIndex].districtData[i]["district"] == district)
                     {
                         isDistrictFound = true;
-                        console.log(response.data[stateIndex].districtData[i]["confirmed"])
-                    
+                        confirmed = response.data[stateIndex].districtData[i]["confirmed"];
+                        console.log(confirmed)
                         break;
                     }
                 }
@@ -47,19 +48,18 @@ const getData = (state, district) => {
                 if(!isDistrictFound)
                 {
                     console.log("District not found!");
+                    return "District not found!"
                 }
             }
 
         })
-        .catch(error => console.error(error))
+        .catch(error => console.error(error));
+
+
+        return confirmed;
 }
 
-getData("assam", "cachar")
+module.exports = {
+    getData: getData()
+}
 
-// const cov = require('./ncov19.json')
-// const stringfy = JSON.stringify(cov)
-// console.log(stringfy)
-
-// console.log(cov.findIndex(state => cov.state = "Goa"))
-// console.log(cov[0].districtData[0]["confirmed"])
-// console.log(cov[0].districtData.length)
