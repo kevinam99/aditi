@@ -1,6 +1,6 @@
 const axios = require('axios')
 
-const getData = (state, district) => {
+const getCovidData = (state, district) => {
     const confirmed = 0;
 
     state = state.toLowerCase()
@@ -60,6 +60,6 @@ const getData = (state, district) => {
 }
 
 module.exports = {
-    getData: getData()
+    getCovidData: getCovidData    
 }
 
