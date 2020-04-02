@@ -1,8 +1,11 @@
 ## Aditi, a chat bot for Telegram
-A chat bot made using Dialogflow and Heroku for hosting. I've made this bot in such a way that it can be extrapolated to various use cases without requiring much effort.
-
 [![Follow me on Twitter](https://img.shields.io/twitter/follow/kevin_codes?style=social)](https://twitter.com/kevin_codes)
 ![Star this repository](https://img.shields.io/github/stars/kevinam99/aditi?style=social)
+
+
+A chat bot made using Dialogflow and Heroku for hosting. I've made this bot in such a way that it can be extrapolated to various use cases without requiring much effort.
+
+![Chat screenshot](https://raw.githubusercontent.com/kevinam99/aditi/master/aditi.png)
 
 ### Run ```npm install``` in your shell to install the dependencies.
 
