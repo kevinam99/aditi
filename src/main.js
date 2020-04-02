@@ -42,22 +42,22 @@ app.get('/', (req, res) => {
     res.send("Hey!")
 })
 
-function getIntent(fulfillment)
+const getIntent = fulfillment =>
 {
     return fulfillment.queryResult.intent.displayName;
 }
 
-function getChatId(fulfillment)
+const getChatId = fulfillment =>
 {
     return fulfillment.originalDetectIntentRequest.payload.data.from.id;
 }
 
-function getName(fulfillment)
+const getName = fulfillment =>
 {
     return fulfillment.originalDetectIntentRequest.payload.data.from.first_name;
 }
 
-function subscribe(id, first_name)
+const subscribe = (id, first_name) =>
 {
     const name = first_name
     const userId = id; 
@@ -85,7 +85,7 @@ function subscribe(id, first_name)
     
 }
 
-function unsubscribe(id)
+const unsubscribe = id =>
 {   
     const userId = id;
     User.findOne({id: userId}, (err, user) => {
@@ -121,7 +121,7 @@ function unsubscribe(id)
     
 }
 
-function sayHi(id, first_name)
+const sayHi = (id, first_name) =>
 {
     const message = `Hello, ${first_name}`;
     bot.sendMessage(id, message);
@@ -145,6 +145,14 @@ app.post('/updates', (request, response) => {
     {
         unsubscribe(getChatId(request.body))
     }    
+
+    if(getIntent(request.body) == "Covid updates")
+    {
+        const covid19 = require('./covid19.js');
+        const state = request.body.parameters.state;
+        const district = request.body.parameters.district;
+        
+    }
 
     bot.on('webhook_error', (error) => {
         console.log(error.code);  // => 'EPARSE'
