@@ -17,8 +17,8 @@ A chat bot made using Dialogflow and Heroku for hosting. I've made this bot in s
 
 ### Usage
 1. Run ```node src/main.js``` or ```nodemon src/main.js```.
-2. The UI will open up. Enter all the inputs. Rest assured, your password is safe.
-3. Click on the 'Submit' button and wait a few seconds.
+2. The server will start on port 5000. Make sure you're also listening on the same port with Ngrok.
+3. Send messages to the bot.
 4. Sit back and watch how the bot goes. 
 
 
