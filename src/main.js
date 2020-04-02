@@ -149,8 +149,8 @@ app.post('/updates', (request, response) => {
     if(getIntent(request.body) == "Covid updates")
     {
         const covid19 = require('./covid19.js');
-        const state = request.body.parameters.state;
-        const district = request.body.parameters.district;  
+        const state = request.body.queryResult.parameters.state;
+        const district = request.body.queryResult.parameters.district;  
         const response = covid19.getCovidData(state, district)
         const message = `The number of confirmed cases here at ${state}, ${district} is ${response}`;
         bot.sendMessage(id, message);
