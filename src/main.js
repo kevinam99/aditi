@@ -150,8 +150,10 @@ app.post('/updates', (request, response) => {
     {
         const covid19 = require('./covid19.js');
         const state = request.body.parameters.state;
-        const district = request.body.parameters.district;
-        
+        const district = request.body.parameters.district;  
+        const response = covid19.getCovidData(state, district)
+        console.log(response);
+
     }
 
     bot.on('webhook_error', (error) => {
