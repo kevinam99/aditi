@@ -1,7 +1,7 @@
 const axios = require('axios')
 
 const getCovidData = (state, district) => {
-    const confirmed_cases = 0;
+    let confirmed_cases = 0;
 
     state = state.toLowerCase()
     // district = district.toLowerCase()
