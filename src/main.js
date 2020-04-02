@@ -152,7 +152,8 @@ app.post('/updates', (request, response) => {
         const state = request.body.parameters.state;
         const district = request.body.parameters.district;  
         const response = covid19.getCovidData(state, district)
-        console.log(response);
+        const message = `The number of confirmed cases here at ${state}, ${district} is ${response}`;
+        bot.sendMessage(id, message);
 
     }
 
