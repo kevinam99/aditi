@@ -42,6 +42,13 @@ app.get('/', (req, res) => {
     res.send("Hey!")
 })
 
+function capitalizeWords(str)
+{
+ return str.replace(/\w\S*/g, (txt) => {
+     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+}
+
 const getIntent = fulfillment =>
 {
     return fulfillment.queryResult.intent.displayName;
@@ -121,6 +128,37 @@ const unsubscribe = id =>
     
 }
 
+async function covidUpdates(fullfillment, id)
+{
+    const covid19 = require('./covid19.js');
+    let state = fullfillment.queryResult.parameters.state;
+    let district = fullfillment.queryResult.parameters.district;
+    state = state.toLowerCase()
+    district = district.toLowerCase()
+    state = capitalizeWords(state); 
+    district = capitalizeWords(district);  
+    const covid19ModuleResponse = await covid19.getCovidData(state, district)
+            // .then(covid19ModuleResponse  => {
+            if(covid19ModuleResponse == "State not found")
+            {
+                const message = `${state} not found :(`;
+                bot.sendMessage(id, message);
+            }
+    
+            if(covid19ModuleResponse == "District not found")
+            {
+                const message = `${district} not found :(`;
+                bot.sendMessage(id, message);
+            }
+            else
+            {
+                console.log("in main.js, confirmed = " + covid19ModuleResponse)
+                const message = `There are  ${covid19ModuleResponse} confirmed case(s) here at ${district}, ${state}.`;
+                bot.sendMessage(id, message); 
+            }
+        // });
+}
+
 const sayHi = (id, first_name) =>
 {
     const message = `Hello, ${first_name}`;
@@ -143,33 +181,15 @@ app.post('/updates', (request, response) => {
 
     if(getIntent(request.body) == "Unsubscribe - yes")
     {
-        unsubscribe(getChatId(request.body))
+        unsubscribe(id)
     }    
 
     if(getIntent(request.body) == "Covid updates")
     {
-        const covid19 = require('./covid19.js');
-        const state = request.body.queryResult.parameters.state;
-        const district = request.body.queryResult.parameters.district;  
-        const response = covid19.getCovidData(state, district)
-
-        if(response == "State not found")
-        {
-            const message = `${state} not found :(`;
-            bot.sendMessage(id, message);
-        }
-
-        if(response == "District not found")
-        {
-            const message = `${district} not found :(`;
-            bot.sendMessage(id, message);
-        }
-        else
-        {
-            const message = `The number of confirmed cases here at ${state}, ${district} is ${response}`;
-            bot.sendMessage(id, message); 
-        }
-        
+        covidUpdates(request.body, id).catch(err => {
+            bot.sendMessage(id, err);
+            console.log(err)
+        });
 
     }
 
