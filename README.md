@@ -7,7 +7,7 @@
 
 A chat bot made using Dialogflow and Heroku for hosting. I've made this bot in such a way that it can be extrapolated to various use cases without requiring much effort.
 
-<img src = "https://raw.githubusercontent.com/kevinam99/aditi/master/aditi.png" width = "410" height = "560">
+<!-- <img src = "https://raw.githubusercontent.com/kevinam99/aditi/master/aditi.png" width = "410" height = "560"> -->
 
 ### Run ```npm install``` in your shell to install the dependencies.
 
