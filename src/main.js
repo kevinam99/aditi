@@ -196,6 +196,32 @@ async function covidUpdates(fullfillment, id)
         // });
 }
 
+async function getJoke(fullfillment)
+{
+    const jokes = require('./jokes');
+    const joke_type = fullfillment.queryResult.parameters.type.toLowerCase();
+
+    if(joke_type == "")
+    {
+        const joke = await jokes.randomJoke()
+        return joke;
+    }
+
+    else if(joke_type == "joke of the day")
+    {
+        const joke = await jokes.jokeOfTheDay()
+        return joke;
+    }
+
+    else if(joke_type == "chuck" || joke_type == "norris")
+
+    {
+        const joke = await jokes.chuckNorrisJoke()
+        return joke;
+    }
+
+}
+
 const sayHi = (id, first_name) =>
 {
     const message = `Hello, ${first_name}`;
@@ -229,6 +255,19 @@ app.post('/updates', (request, response) => {
         });
 
     }
+
+    if(getIntent(request.body) == "Jokes")
+    {
+        const joke = getJoke(request.body)
+                     .then(joke => {
+                        console.log(joke)
+                        bot.sendMessage(id, joke);
+                     })   
+                    .catch(err => console.log(err));
+        
+
+    }
+
 
     bot.on('webhook_error', (error) => {
         console.log(error.code);  // => 'EPARSE'
