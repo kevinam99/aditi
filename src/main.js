@@ -152,9 +152,22 @@ async function covidUpdates(fullfillment, id)
             }
             else
             {
-                console.log("in main.js, confirmed = " + covid19ModuleResponse)
-                const message = `There are  ${covid19ModuleResponse} confirmed case(s) here at ${district}, ${state}.`;
-                bot.sendMessage(id, message); 
+                if(covid19ModuleResponse == 0){
+                    console.log("in main.js, confirmed = " + covid19ModuleResponse)
+                    const message = `There are  ${covid19ModuleResponse} confirmed cases here at ${district}, ${state}.`;
+                    bot.sendMessage(id, message); 
+                }
+                else if(covid19ModuleResponse == 1){
+                    console.log("in main.js, confirmed = " + covid19ModuleResponse)
+                    const message = `There is  ${covid19ModuleResponse} confirmed case here at ${district}, ${state}.`;
+                    bot.sendMessage(id, message); 
+                }
+                else if(covid19ModuleResponse > 1){
+                    console.log("in main.js, confirmed = " + covid19ModuleResponse)
+                    const message = `There are  ${covid19ModuleResponse} confirmed cases here at ${district}, ${state}.`;
+                    bot.sendMessage(id, message); 
+                }
+                
             }
         // });
 }
