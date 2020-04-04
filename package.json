@@ -2,12 +2,29 @@
   "name": "aditiv2",
   "version": "1.0.0",
   "description": "A (possibly) better version",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "start": "node src/main.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevinam99/aditi.git"
+  },
+  "keywords": [
+    "aditi",
+    "telegram",
+    "telegram",
+    "chatbot",
+    "chatbot",
+    "conversational",
+    "ai"
+  ],
   "author": "Kevin Mathew",
-  "license": "ISC",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kevinam99/aditi/issues"
+  },
+  "homepage": "https://github.com/kevinam99/aditi#readme",
   "dependencies": {
     "axios": "^0.19.2",
     "bluebird": "^3.7.2",
