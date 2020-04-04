@@ -6,6 +6,7 @@ fullfilmen*.json
 client_secret.json
 src/ncov*.json
 .github/FUNDING.yml
+*secrets*.json
 # Logs
 logs
 *.log
