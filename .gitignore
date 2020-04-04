@@ -1,5 +1,5 @@
 node_modules/
-secrets.json
+*secrets.json
 package-lock.json
 fullfilmen*.json
 .env
