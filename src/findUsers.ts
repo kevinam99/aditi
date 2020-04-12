@@ -1,4 +1,4 @@
-import User from './models/user.model'
+import User from '../models/user.model'
 async function searchAllUsers(){
     User.countDocuments({}, (error,response) => {
         if(error)
