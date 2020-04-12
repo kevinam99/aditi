@@ -1,4 +1,4 @@
-import dotenv = require('dotenv');
+const dotenv = require('dotenv');
 dotenv.config();
 
 import TelegramBot from 'node-telegram-bot-api';
