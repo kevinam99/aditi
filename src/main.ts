@@ -80,7 +80,7 @@ const subscribe = (id, first_name) =>
         
         else if(!err)
         {
-            const message = `You have been subscribed. Welcome aboard, ${first_name}!`;
+            const message = `You have been subscribed. Welcome aboard, ${first_name}! `;
             bot.sendMessage(id, message);
         }
     })
