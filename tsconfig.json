@@ -2,6 +2,7 @@
     "compilerOptions": {
       "outDir": "./dist",
       "allowJs": true,
+      "watch": true,
       "moduleResolution": "node",
       "allowSyntheticDefaultImports": true,
       "module": "commonjs",

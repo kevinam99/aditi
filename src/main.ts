@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
 const token = process.env.BOT_TOKEN;
 const bot = new TelegramBot(token, {polling: false});
 import User from '../models/user.model';
-
+import getCovidData from './covid19'
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, function(){
     console.log("Express app listening on port " + PORT);
@@ -126,69 +126,28 @@ const unsubscribe = id =>
 
 async function covidUpdates(fullfillment: any, id: number)
 {
+    // import { getCovidData } from './covid19'
     const covid19 = require('./covid19')
     let state = fullfillment.queryResult.parameters.state;
-    let district = fullfillment.queryResult.parameters.district;
     state = state.toLowerCase()
-    district = district.toLowerCase()
     state = capitalizeWords(state);
     if(state == "Andaman And Nicobar Islands")
     {
         state = "Andaman and Nicobar Islands"
     }
-    district = capitalizeWords(district);  
-    const covid19ModuleResponse = await covid19.getCovidData(state = state, district)
-            // .then(covid19ModuleResponse  => {
-            if(covid19ModuleResponse == "State not found")
-            {
-                const message = `${state} not found :(`;
-                bot.sendMessage(id, message);
-            }
     
-            if(covid19ModuleResponse == "District not found")
-            {
-                const message = `${district} not found :(`;
-                bot.sendMessage(id, message);
-            }
+    try {
+        let response: any  = await getCovidData(state)
+        console.log(JSON.stringify(response.confirmedCasesIndian))
+        const message = `Update for ${state} as of ${new Date().toDateString()}: \nConfirmed Indian cases: ${response.confirmedCasesIndian} \nConfirmed foreign nationals: ${response.confirmedCasesForeign} \nDischarged: ${response.discharged} \nDeaths: ${response.deaths} \nTotal confirmed: ${response.totalConfirmed - response.discharged}`
+        bot.sendMessage(id, message);
+    }
+    catch(error)
+    {
+        console.log(error)
+    }
+    
 
-            if(state && !district || district == null || district == undefined)
-            {
-                if(covid19ModuleResponse == 0){
-                    console.log("in main.js, confirmed = " + covid19ModuleResponse)
-                    const message = `There are  ${covid19ModuleResponse} confirmed cases in ${state}. All information is sourced from volunteer-driven crowdsource data from this [page](https://covid19india.org/)`;
-                    bot.sendMessage(id, message, {parse_mode: "markdown", disable_web_page_preview: true}); 
-                }
-                else if(covid19ModuleResponse == 1){
-                    console.log("in main.js, confirmed = " + covid19ModuleResponse)
-                    const message = `There is  ${covid19ModuleResponse} confirmed case in ${state}. All information is sourced from volunteer-driven crowdsource data from this [page](https://covid19india.org/)`;
-                    bot.sendMessage(id, message, {parse_mode: "markdown", disable_web_page_preview: true}); 
-                }
-                else if(covid19ModuleResponse > 1){
-                    console.log("in main.js, confirmed = " + covid19ModuleResponse)
-                    const message = `There are  ${covid19ModuleResponse} confirmed cases in ${state}. All information is sourced from volunteer-driven crowdsource data from this [page](https://covid19india.org/)`;
-                    bot.sendMessage(id, message, {parse_mode: "markdown", disable_web_page_preview: true}); 
-                }
-            }
-            else
-            {
-                if(covid19ModuleResponse == 0){
-                    console.log("in main.js, confirmed = " + covid19ModuleResponse)
-                    const message = `There are  ${covid19ModuleResponse} confirmed cases here at ${district}, ${state}. All information is sourced from volunteer-driven crowdsource data from this [page](https://covid19india.org/)`;
-                    bot.sendMessage(id, message, {parse_mode: "markdown", disable_web_page_preview: true}); 
-                }
-                else if(covid19ModuleResponse == 1){
-                    console.log("in main.js, confirmed = " + covid19ModuleResponse)
-                    const message = `There is  ${covid19ModuleResponse} confirmed case here at ${district}, ${state}.All information is sourced from volunteer-driven crowdsource data from this [page](https://covid19india.org/)`;
-                    bot.sendMessage(id, message, {parse_mode: "markdown", disable_web_page_preview: true}); 
-                }
-                else if(covid19ModuleResponse > 1){
-                    console.log("in main.js, confirmed = " + covid19ModuleResponse)
-                    const message = `There are ${covid19ModuleResponse} confirmed cases here at ${district}, ${state}.
-                                        All information is sourced from volunteer-driven crowdsource data from this [page](https://covid19india.org/).`;
-                    bot.sendMessage(id, message, {parse_mode: "markdown", disable_web_page_preview: true}); 
-                }
-                
-            }
         // });
 }
 
@@ -251,7 +210,7 @@ app.post('/updates', (request, response) => {
 
     if(getIntent(request.body) == "Covid updates")
     {
-        covidUpdates(request.body, id).catch(err => {
+            covidUpdates(request.body, id).catch(err => {
             bot.sendMessage(id, err);
             console.log(err)
         });
