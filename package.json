@@ -2,7 +2,10 @@
   "name": "aditiv2",
   "version": "1.0.0",
   "description": "A (possibly) better version",
-  "main": "main.js",
+  "main": "src/main.ts",
+  "engines": {
+    "node": "12.16.x"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "lint": "tslint -c tslint.json -p tsconfig.json",
@@ -41,8 +44,6 @@
     "node-telegram-bot-api": "^0.40.0"
   },
   "devDependencies": {
-    "@types/express": "^4.17.3",
-    "@types/jest": "^23.3.14",
     "@types/node": "^10.17.17",
     "ts-node": "^7.0.1",
     "tslint": "^5.20.1",
