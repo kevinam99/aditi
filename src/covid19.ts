@@ -1,6 +1,6 @@
 // import axios = require('axios')
 import axios from 'axios';
-const getCovidData = (state, district = "") => {
+const getCovidData = (state: string, district: string = "") => {
     
         let stateIndex = 0
         let confirmed_cases = 0;
