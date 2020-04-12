@@ -1,10 +1,6 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-const Promise = require('bluebird');
-Promise.config({
-  cancellation: true
-});
 const TelegramBot = require('node-telegram-bot-api');
 
 const express = require('express');
@@ -13,7 +9,7 @@ const app = express();
 const mongoose = require('mongoose');
 const token = process.env.BOT_TOKEN;
 const bot = new TelegramBot(token, {polling: false});
-let User = require('../models/user.model');
+import User from '../models/user.model';
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, function(){
@@ -84,7 +80,7 @@ const subscribe = (id, first_name) =>
         
         else if(!err)
         {
-            const message = `You have been subscribed. Welcome aboard, ${first_name}!`;
+            const message = `You have been subscribed. Welcome aboard, ${first_name}! `;
             bot.sendMessage(id, message);
         }
     })
@@ -94,7 +90,7 @@ const subscribe = (id, first_name) =>
 
 const unsubscribe = id =>
 {   
-    const userId = id;
+    const userId = id; 
     User.findOne({id: userId}, (err, user) => {
         if(err)
         {
@@ -128,9 +124,9 @@ const unsubscribe = id =>
     
 }
 
-async function covidUpdates(fullfillment, id)
+async function covidUpdates(fullfillment: any, id: number)
 {
-    const covid19 = require('./covid19.js');
+    const covid19 = require('./covid19')
     let state = fullfillment.queryResult.parameters.state;
     let district = fullfillment.queryResult.parameters.district;
     state = state.toLowerCase()
@@ -196,9 +192,9 @@ async function covidUpdates(fullfillment, id)
         // });
 }
 
-async function getJoke(fullfillment)
+async function getJoke(fullfillment: any)
 {
-    const jokes = require('./jokes');
+    const jokes = require('./jokes')
     const joke_type = fullfillment.queryResult.parameters.type.toLowerCase();
 
     if(joke_type == "")
@@ -239,7 +235,13 @@ app.post('/updates', (request, response) => {
 
     if(getIntent(request.body) == "Subscribe")
     {
-        subscribe(id, name, () => console.log(`${name}, subscribed`));
+        try {
+            subscribe(id, name);    
+        }
+        catch(err) {
+            console.log(err)
+        }
+        
     }
 
     if(getIntent(request.body) == "Unsubscribe - yes")
@@ -275,20 +277,20 @@ app.post('/updates', (request, response) => {
 });
 
 
-bot.onText(/\/start/, (msg) => {
-    bot.sendMessage(id, "Welcome, " + msg.from.first_name + ". Click on subscribe to subscribe to the feed. To unsubscribe anytime, send \"Unsubscribe\" anytime", {
-    "reply_markup": {
-        "keyboard": [["Subscribe me!"], ["Unsubscribe me"]]
-        }
-    });
+// bot.onText(/\/start/, (msg) => {
+//     bot.sendMessage(id, "Welcome, " + msg.from.first_name + ". Click on subscribe to subscribe to the feed. To unsubscribe anytime, send \"Unsubscribe\" anytime", {
+//     "reply_markup": {
+//         "keyboard": [["Subscribe me!"], ["Unsubscribe me"]]
+//         }
+//     });
         
-});
+// });
 
-bot.onText(/\/help/, (msg) => {
-    bot.sendMessage(id, "Hi, " + msg.from.first_name + ". Send \"subscribe\" to subscribe to the feed. To unsubscribe anytime, send \"Unsubscribe\" ", {
-    "reply_markup": {
-        "keyboard": [["Subscribe me!"], ["Unsubscribe me"]]
-        }
-    });
+// bot.onText(/\/help/, (msg) => {
+//     bot.sendMessage(id, "Hi, " + msg.from.first_name + ". Send \"subscribe\" to subscribe to the feed. To unsubscribe anytime, send \"Unsubscribe\" ", {
+//     "reply_markup": {
+//         "keyboard": [["Subscribe me!"], ["Unsubscribe me"]]
+//         }
+//     });
         
-});
+// });
