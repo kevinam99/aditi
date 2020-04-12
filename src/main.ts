@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-import TelegramBot from 'node-telegram-bot-api';
+const TelegramBot = require('node-telegram-bot-api');
 
 import express from 'express';
 import bodyParser from 'body-parser';
