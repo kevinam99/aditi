@@ -4,7 +4,11 @@
   "description": "A (possibly) better version",
   "main": "main.js",
   "scripts": {
-    "start": "node src/main.js"
+    "build": "tsc -p tsconfig.build.json",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "fixlint": "tslint -c tslint.json -p tsconfig.json --fix",
+    "pretest": "rm -rf ./dist && npm run build",
+    "start": "node built/main.js"
   },
   "repository": {
     "type": "git",

@@ -1,0 +1,28 @@
+// THIS FILE IS NEEDED BECAUSE OF
+// https://github.com/palantir/tslint/issues/3677
+// because linter fails on excluded files and we want them to be linted too so we add them there
+// but here we add them to excluded list so they are not transpiled to JS
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "removeComments": true,
+    "paths": {
+      "*": [
+        "node_modules/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ]
+}

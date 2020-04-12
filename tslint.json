@@ -1,0 +1,61 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:latest"
+  ],
+  "jsRules": {
+    "semicolon": {
+      "options": [
+        "never"
+      ]
+    },
+    "quotemark": {
+      "options": [
+        "single",
+        "avoid-escape"
+      ]
+    },
+    "trailing-comma": {
+      "options": {
+        "multiline": "never",
+        "singleline": "never"
+      }
+    },
+    "object-literal-sort-keys": false,
+    "ordered-imports": false,
+    "interface-name": false,
+    "no-implicit-dependencies": [
+      true,
+      "dev"
+    ]
+  },
+  "rules": {
+    "semicolon": {
+      "options": [
+        "never"
+      ]
+    },
+    "quotemark": {
+      "options": [
+        "single",
+        "avoid-escape"
+      ]
+    },
+    "trailing-comma": {
+      "options": {
+        "multiline": "never",
+        "singleline": "never"
+      }
+    },
+    "arrow-parens": [true, "ban-single-arg-parens"],
+    "no-consecutive-blank-lines": [true, 2],
+    "object-literal-sort-keys": false,
+    "ordered-imports": true,
+    "interface-name": false,
+    "no-implicit-dependencies": [
+      true,
+      "dev"
+    ]
+  },
+  "rulesDirectory": []
+}
