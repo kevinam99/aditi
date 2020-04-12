@@ -3,7 +3,7 @@ dotenv.config();
 
 const TelegramBot = require('node-telegram-bot-api');
 
-import * as express from 'express';
+const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const mongoose = require('mongoose');

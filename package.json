@@ -11,7 +11,7 @@
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "fixlint": "tslint -c tslint.json -p tsconfig.json --fix",
     "pretest": "rm -rf ./dist && npm run build",
-    "start": "node src/main.ts"
+    "start": "node dist/main.js"
   },
   "repository": {
     "type": "git",
