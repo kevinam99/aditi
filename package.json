@@ -2,14 +2,14 @@
   "name": "aditiv2",
   "version": "1.0.0",
   "description": "A (possibly) better version",
-  "main": "src/main.ts",
+  "main": "dist/main.js",
   "engines": {
     "node": "12.16.x"
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "lint": "tslint -c tslint.json -p tsconfig.json",
-    "fixlint": "tslint -c tslint.json -p tsconfig.json --fix",
+
     "pretest": "rm -rf ./dist && npm run build",
     "start": "node dist/main.js",
     "postinstall": "npm run build"
