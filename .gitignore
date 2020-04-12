@@ -1,5 +1,5 @@
 node_modules/
-secrets.json
+*secrets.json
 package-lock.json
 fullfilmen*.json
 .env
@@ -21,6 +21,7 @@ update.json
 *.jpg
 *.png
 *.jpeg
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 

@@ -2,9 +2,17 @@
   "name": "aditiv2",
   "version": "1.0.0",
   "description": "A (possibly) better version",
-  "main": "main.js",
+  "main": "dist/src/main.js",
+  "engines": {
+    "node": "12.16.x"
+  },
   "scripts": {
-    "start": "node src/main.js"
+    "build": "tsc -p tsconfig.build.json",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+
+    "pretest": "rm -rf ./dist && npm run build",
+    "start": "node dist/src/main.js",
+    "postinstall": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -26,14 +34,22 @@
   },
   "homepage": "https://github.com/kevinam99/aditi#readme",
   "dependencies": {
+    "@types/lodash": "^4.14.149",
+    "@types/express": "^4.17.3",
+    "@types/node": "^13.11.1",
     "axios": "^0.19.2",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "google-spreadsheet": "^3.0.10",
     "mongoose": "^5.9.7",
     "node-telegram-bot-api": "^0.40.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/node": "^10.17.17",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.20.1",
+    "typescript": "^3.8.3",
+    "wait-for-expect": "^1.3.0"
+  }
 }

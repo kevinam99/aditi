@@ -1,7 +1,7 @@
-const axios = require('axios')
-
-const getCovidData = (state, district = "") => {
-    return new Promise((resolve, reject) => {
+// import axios = require('axios')
+import axios from 'axios';
+const getCovidData = (state: string, district: string = "") => {
+    
         let stateIndex = 0
         let confirmed_cases = 0;
         console.log("before getting url")
@@ -30,7 +30,7 @@ const getCovidData = (state, district = "") => {
                     if(!isStateFound)
                     {
                         console.log(`${state} state not found!`)
-                        reject(`${state} state not found!`);
+                        return (`${state} state not found!`);
                     }
                     else
                     {
@@ -43,7 +43,7 @@ const getCovidData = (state, district = "") => {
                                 isDistrictFound = true;
                                 confirmed_cases = response.data[stateIndex].districtData[i]["confirmed"];
                                 console.log("in district found bloc, confirmed = " + confirmed_cases)
-                                resolve(confirmed_cases);
+                                return (confirmed_cases);
                                 break;
                                 
                             }
@@ -52,7 +52,7 @@ const getCovidData = (state, district = "") => {
                         if(!isDistrictFound)
                         {
                             console.log(`${district} district not found in ${state}!`);
-                            reject(`${district} district not found in ${state}.`);
+                            return (`${district} district not found in ${state}.`);
                         }
                     }
                 }
@@ -71,7 +71,7 @@ const getCovidData = (state, district = "") => {
                     }
 
                     console.log(`stateConfirmed = ${stateConfirmed}`);
-                    resolve(stateConfirmed);
+                    return (stateConfirmed);
                 }
 
 
@@ -83,7 +83,7 @@ const getCovidData = (state, district = "") => {
         
 
         
-    })
+    
         
 }
 
@@ -91,7 +91,7 @@ console.log("Calling fn")
 // getCovidData(state = "Goa")
 
 
-module.exports = {
+export default {
     getCovidData: getCovidData
 }
 
