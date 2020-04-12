@@ -13,7 +13,8 @@ matrix:
 
 branches:
   only:
-  - migration/TypeScript 
+  - master
+  - dev
   - /^release-.*/
 
 
