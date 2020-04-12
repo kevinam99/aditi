@@ -1,1 +1,1 @@
-worker: node src/main.ts
+worker: node dist/main.js
