@@ -11,6 +11,7 @@ const token = process.env.BOT_TOKEN;
 const bot = new TelegramBot(token, {polling: false});
 import User from '../models/user.model';
 import getCovidData from './covid19'
+import jokes from './jokes'
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, function(){
     console.log("Express app listening on port " + PORT);
@@ -153,26 +154,43 @@ async function covidUpdates(fullfillment: any, id: number)
 
 async function getJoke(fullfillment: any)
 {
-    const jokes = require('./jokes')
     const joke_type = fullfillment.queryResult.parameters.type.toLowerCase();
 
     if(joke_type == "")
     {
-        const joke = await jokes.randomJoke()
-        return joke;
+        try {
+            const joke = await jokes.getRandomJoke()
+            return joke;
+        }
+        catch(error)
+        {
+            return error
+        }
     }
 
     else if(joke_type == "joke of the day")
     {
-        const joke = await jokes.jokeOfTheDay()
-        return joke;
+        try {
+            const joke = await jokes.getJokeOfTheDay()
+            return joke;
+        }
+        catch(error)
+        {
+            return error
+        }
     }
 
     else if(joke_type == "chuck" || joke_type == "norris")
-
     {
-        const joke = await jokes.chuckNorrisJoke()
-        return joke;
+        try {
+            const joke = await jokes.getChuckNorrisJoke()
+            return joke;
+        }
+        catch(error)
+        {
+            return error
+        }
+        
     }
 
 }
