@@ -9,7 +9,7 @@ const app = express();
 const mongoose = require('mongoose');
 const token = process.env.BOT_TOKEN;
 const bot = new TelegramBot(token, {polling: false});
-import User from './models/user.model';
+import User from '../models/user.model';
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, function(){
