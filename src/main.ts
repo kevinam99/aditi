@@ -140,7 +140,7 @@ async function covidUpdates(fullfillment: any, id: number)
     try {
         let response: any  = await getCovidData(state)
         console.log(JSON.stringify(response.confirmedCasesIndian))
-        const message = `Update for ${state} as of ${new Date().toDateString()}: \nConfirmed Indian cases: ${response.confirmedCasesIndian} \nConfirmed foreign nationals: ${response.confirmedCasesForeign} \nDischarged: ${response.discharged} \nDeaths: ${response.deaths} \nTotal confirmed: ${response.totalConfirmed - response.discharged}`
+        const message = `Update for ${state} as of ${new Date().toDateString()}: \nConfirmed Indian cases: ${response.confirmedCasesIndian} \nConfirmed foreign nationals: ${response.confirmedCasesForeign} \nDischarged: ${response.discharged} \nDeaths: ${response.deaths} \nTotal active: ${response.totalConfirmed - response.discharged}\nTotal confirmed: ${response.totalConfirmed}`
         bot.sendMessage(id, message);
     }
     catch(error)
