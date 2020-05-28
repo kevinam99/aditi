@@ -1,5 +1,5 @@
 ## Aditi, a chat bot for Telegram
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![Follow me on Twitter](https://img.shields.io/twitter/follow/thiskevinguy?style=social)](https://twitter.com/thiskevinguy)
 ![Star this repository](https://img.shields.io/github/stars/kevinam99/aditi?style=social)
 ![Heroku](https://heroku-badge.herokuapp.com/?app=aditi-tgbot)
