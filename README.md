@@ -39,8 +39,7 @@ A chat bot made using Dialogflow and Heroku for hosting. I've made this bot in s
 - Test the bot and suggest improvements.
 
 ### Reach out to me on:
-1. [Twitter](https://www.twitter.com/kevin_codes)
-2. [Instagram](https://www.instagram.com/kevin.codes)
-3. Email <kevinam99@gmail.com>
-4. [LinkedIn](https://www.linkedin.com/in/kevin-a-mathew)
+1. [Twitter](https://www.twitter.com/neverloquacious)
+2. Email <kevinam99@gmail.com>
+3. [LinkedIn](https://www.linkedin.com/in/kevin-a-mathew)
 
